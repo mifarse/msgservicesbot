@@ -21,7 +21,7 @@ def kochka(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     korpus1 = types.KeyboardButton('1, 2, 3, 4, 5')
     korpus2 = types.KeyboardButton('7, 8, 9, 10, 11')
-    back = types.KeyboardButton('0. Главное меню')
+    back = types.KeyboardButton('Главное меню')
     markup.row(korpus1, korpus2)
     markup.row(back)
     bot.send_message(message.chat.id, "*Спортзал*\n\nБесплатное время посещения:\nпн-пт: 7:00-16:00, 22:00-23:00\nсб: 7:00-16:00, 21:00-22:00\nвс: 8:00-16:00, 21:00-22:00\n\nУкажите свой корпус", reply_markup=markup, parse_mode='Markdown')
@@ -30,7 +30,7 @@ def kochka(message):
 @bot.message_handler(regexp='\d,\s\d,\s\d,*')
 def kochka_more(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    back = types.KeyboardButton('0. Главное меню')
+    back = types.KeyboardButton('Главное меню')
     markup.row(back)
 
     good = 100
@@ -48,15 +48,15 @@ def kochka_more(message):
         elif message.text == '7, 8, 9, 10, 11':
             good = 1
     day = int(time.strftime("%d"))
-    opportunity = "Сегодня твой день!"
+    opportunity = ""
     if day%2 == good:
-        opportunity = "Сегодня твой день!\n{}".format(week[time.strftime('%w')])
+        opportunity = time.strftime("%d.%m")+", Сегодня твой день!\n{}".format(week[time.strftime('%w')])
     else:
-        opportunity = "Приходи завтра"
+        opportunity = time.strftime("%d.%m")+", Приходи завтра"
     bot.send_message(message.chat.id, "*Спортзал*\n\n"+opportunity,
                      reply_markup=markup, parse_mode='Markdown')
 
-@bot.message_handler(regexp='0. Главное меню')
+@bot.message_handler(regexp='Главное меню')
 def home(message):
     send_welcome(message)
 
